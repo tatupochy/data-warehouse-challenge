@@ -29,6 +29,8 @@ Este proyecto implementa un proceso de extracción, transformación y carga (ETL
     sudo docker exec -it data-warehouse-challenge_postgres_1 psql -U airflow -d airflow -f /docker-entrypoint-initdb.d/create_tables.sql
 
 3. **Configura las variables de entorno**
+    Usar el template brindado
+
     AIRFLOW_UID=1000
     AIRFLOW_GID=0
 
