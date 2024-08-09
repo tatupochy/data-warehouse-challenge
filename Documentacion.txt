@@ -1,0 +1,91 @@
+Documentación del Proyecto: Data Warehouse Challenge
+
+1. Descripción del Proyecto
+Nombre del Proyecto: Data Warehouse Challenge
+Objetivo: Implementar un proceso ETL (Extracción, Transformación y Carga) utilizando Apache Airflow y Docker para construir un Data Warehouse en PostgreSQL.
+
+Tecnologías Utilizadas (Requeridas):
+Apache Airflow: Para la orquestación de tareas ETL.
+Docker: Para la configuración y ejecución de los contenedores.
+PostgreSQL: Base de datos para el Data Warehouse.
+Redis: Broker para Celery en Airflow.
+
+
+2. Estructura del Proyecto
+dags/: Contiene los archivos de definición de los DAGs de Airflow.
+config/: Configuraciones de Airflow.
+data/: Archivos de datos en formato CSV.
+logs/: Logs generados por Airflow.
+plugins/: Plugins personalizados para Airflow.
+requirements.txt: Dependencias de Python.
+init_db.sh: Script para inicializar la base de datos PostgreSQL.
+docker-compose.yml: Configuración de Docker Compose.
+.env: Variables de entorno.
+
+
+3. Configuración y Ejecución
+3.1 Clonación del Repositorio
+git clone git@github.com:tatupochy/data-warehouse-challenge.git
+cd data-warehouse-challenge
+
+3.2 Creación de Tablas en PostgreSQL
+Ejecuta el script SQL para crear las tablas necesarias en PostgreSQL
+sudo docker exec -it data-warehouse-challenge_postgres_1 psql -U airflow -d airflow -f /docker-entrypoint-initdb.d/create_tables.sql
+
+
+3.3 Configuración de Variables de Entorno
+Define las variables de entorno en el archivo .env:
+AIRFLOW_UID=1000
+AIRFLOW_GID=0
+
+# Airflow
+AIRFLOW_IMAGE_NAME=apache/airflow:2.9.3
+AIRFLOW_UID=50000
+AIRFLOW_PROJ_DIR=.
+AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@postgres/airflow
+AIRFLOW__CELERY__BROKER_URL=redis://:@redis:6379/0
+AIRFLOW__CORE__FERNET_KEY=your_fernet_key
+AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
+AIRFLOW__CORE__LOAD_EXAMPLES=true
+AIRFLOW__API__AUTH_BACKENDS=airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session
+AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK=true
+_PIP_ADDITIONAL_REQUIREMENTS=
+
+# Postgres
+POSTGRES_USER=airflow
+POSTGRES_PASSWORD=airflow
+POSTGRES_DB=airflow
+
+# Optional settings
+_AIRFLOW_DB_MIGRATE=true
+_AIRFLOW_WWW_USER_CREATE=true
+_AIRFLOW_WWW_USER_USERNAME=airflow
+_AIRFLOW_WWW_USER_PASSWORD=airflow
+
+# DAG
+DB_NAME=airflow
+DB_USER=airflow
+DB_PASSWORD=airflow
+DB_HOST=postgres
+DB_PORT=5432
+
+
+3.4 Iniciar los Servicios
+Levanta los contenedores con Docker Compose:
+docker-compose up -d
+
+
+4. Implementación de Airflow
+DAGs: Archivos en dags/ que definen el flujo de trabajo ETL.
+Configuración: Ajustes en config/ y variables de entorno definidas en .env.
+
+
+5. Implementación del Data Warehouse
+Diseño del Esquema: Al menos cuatro tablas de hechos.
+Optimización: Diseño y ajustes para mejorar la eficiencia de las consultas.
+
+
+6. Seguridad
+Variables de Entorno: Uso seguro de variables de entorno para credenciales y configuraciones.
+Información Sensible: Asegúrate de que no haya información sensible en el código fuente.

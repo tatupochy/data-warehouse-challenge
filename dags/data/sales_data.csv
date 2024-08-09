@@ -1,0 +1,4 @@
+date,product_name,customer_name,store_name,price_per_unit,quantity_sold
+2024-08-01,Product A,Customer X,Store Y,10.00,5
+2024-08-02,Product B,Customer Y,Store X,20.00,3
+2024-08-03,Product C,Customer Z,Store Z,15.00,7

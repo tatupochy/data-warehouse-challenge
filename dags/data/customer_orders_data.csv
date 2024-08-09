@@ -1,0 +1,4 @@
+date,customer_name,price_per_item,items_ordered
+2024-08-01,Customer X,10.00,2
+2024-08-02,Customer Y,20.00,1
+2024-08-03,Customer Z,15.00,4

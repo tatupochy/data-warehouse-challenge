@@ -1,0 +1,4 @@
+pandas
+numpy
+python-dotenv
+# Añade más dependencias aquí
